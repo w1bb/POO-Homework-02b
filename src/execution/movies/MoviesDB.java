@@ -2,6 +2,8 @@ package execution.movies;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import execution.notifications.Notification;
+import execution.notifications.NotificationType;
 import execution.users.User;
 
 import java.util.ArrayList;
@@ -15,10 +17,16 @@ public final class MoviesDB {
 
     /**
      * This method adds a given movie to the database.
-     * @param movie The movie to be added to the database.
+     * @param movieToAdd The movie to be added to the database.
      */
-    public void add(final Movie movie) {
-        movies.add(movie);
+    public Notification add(final Movie movieToAdd) {
+        for (Movie movie : movies) {
+            if (movie.getName().equals(movieToAdd.getName())) {
+                return null;
+            }
+        }
+        movies.add(movieToAdd);
+        return new Notification(movieToAdd.getName(), NotificationType.DATABASE_ADD);
     }
 
     /**

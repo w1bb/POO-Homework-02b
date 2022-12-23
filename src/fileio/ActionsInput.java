@@ -11,6 +11,8 @@ public final class ActionsInput {
     private String objectType;
     private CredentialsInput credentialsInput;
     private ActionsFiltersInput filtersInput;
+    private String subscribedGenre;
+    private MovieInput addedMovie;
 
     public ActionsInput() {
     }
@@ -93,6 +95,22 @@ public final class ActionsInput {
 
     public void setFilters(final ActionsFiltersInput filters) {
         this.filtersInput = filters;
+    }
+
+    public String getSubscribedGenre() {
+        return subscribedGenre;
+    }
+
+    public void setSubscribedGenre(String subscribedGenre) {
+        this.subscribedGenre = subscribedGenre;
+    }
+
+    public MovieInput getAddedMovie() {
+        return addedMovie;
+    }
+
+    public void setAddedMovie(MovieInput addedMovie) {
+        this.addedMovie = addedMovie;
     }
 
     @Override

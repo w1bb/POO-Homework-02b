@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.interpreters.back.BackInterpreter;
 import execution.interpreters.changepage.ChangePageInterpreter;
 import execution.interpreters.onpage.OnPageInterpreter;
+import execution.interpreters.subscribe.SubscribeInterpreter;
 import execution.movies.MoviesDB;
 import execution.pages.Page;
 import execution.pages.PageQuery;
@@ -30,6 +31,8 @@ public final class Interpreter implements GeneralInterpreter {
 
     private final BackInterpreter backInterpreter;
 
+    private final SubscribeInterpreter subscribeInterpreter;
+
     public Interpreter(final Input input) {
         this.usersDB = new UsersDB();
         this.moviesDB = new MoviesDB();
@@ -40,6 +43,7 @@ public final class Interpreter implements GeneralInterpreter {
         changePageInterpreter = new ChangePageInterpreter();
         onPageInterpreter = new OnPageInterpreter();
         backInterpreter = new BackInterpreter();
+        subscribeInterpreter = new SubscribeInterpreter();
     }
 
     /**
@@ -51,12 +55,13 @@ public final class Interpreter implements GeneralInterpreter {
         PageResponse returnValue = switch (pq.getCurrentActionsInput().getType()) {
             case "change page" -> changePageInterpreter.executeAction(pq);
             case "on page" -> onPageInterpreter.executeAction(pq);
+            case "subscribe" -> subscribeInterpreter.executeAction(pq);
             case "back" -> backInterpreter.executeAction(pq);
             // This should NEVER be reached
             default -> null;
         };
-        assert returnValue != null;
-        if (returnValue.getRerunAction() != null) {
+//        assert returnValue != null;
+        if (returnValue != null && returnValue.getRerunAction() != null) {
             pq.setCurrentActionsInput(returnValue.getRerunAction());
             return executeAction(pq);
         }

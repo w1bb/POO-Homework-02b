@@ -1,5 +1,7 @@
 package execution.users;
 
+import execution.notifications.Notification;
+
 import java.util.ArrayList;
 
 public final class UsersDB {
@@ -46,5 +48,12 @@ public final class UsersDB {
             }
         }
         return false;
+    }
+
+    public void notifyUsers(Notification notification) {
+        assert notification != null;
+        for (User user : users) {
+            user.getNotifications().add(notification);
+        }
     }
 }

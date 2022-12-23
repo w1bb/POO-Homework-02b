@@ -40,6 +40,20 @@ public final class SeeDetailsPage extends Page {
         return instance;
     }
 
+    private PageResponse executeSubscribe(final PageQuery pq) {
+        String toSubscribedGenre = pq.getCurrentActionsInput().getSubscribedGenre();
+        if (!currentMovie.getGenres().contains(toSubscribedGenre)) {
+            return PageResponse.Builder.createError();
+        }
+        ArrayList<String> subscribedGenres = pq.getCurrentUser().getSubscribedGenres();
+        if (subscribedGenres.contains(toSubscribedGenre)) {
+            return PageResponse.Builder.createError();
+        }
+        subscribedGenres.add(toSubscribedGenre);
+        PageResponse.Builder builder = new PageResponse.Builder();
+        return builder.newUser(pq.getCurrentUser()).build();
+    }
+
     /**
      * This method executes the "purchase" feature on the current page.
      * @param pq The structure containing relevant information for the current request.
@@ -132,6 +146,10 @@ public final class SeeDetailsPage extends Page {
     public PageResponse execute(final PageQuery pq) {
         if (currentMovie == null) {
             return PageResponse.Builder.createError();
+        }
+        // Special case
+        if (pq.getCurrentActionsInput().getType().equals("subscribe")) {
+            return executeSubscribe(pq);
         }
         return switch (pq.getCurrentActionsInput().getFeature()) {
             case "purchase" -> executePurchase(pq);

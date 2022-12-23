@@ -11,10 +11,7 @@ import fileio.ActionsInput;
 import java.util.ArrayList;
 
 public final class BackInterpreter implements GeneralInterpreter {
-    private final ObjectMapper objectMapper;
-
     public BackInterpreter() {
-        objectMapper = new ObjectMapper();
     }
 
     @Override
@@ -33,6 +30,6 @@ public final class BackInterpreter implements GeneralInterpreter {
         ArrayList<ActionsInput> pastActions = pq.getPastActions();
         PageResponse.Builder builder = new PageResponse.Builder();
         builder.rerunAction(pastActions.get(pastActions.size() - 2));
-        return builder.build();
+        return builder.newUser(pq.getCurrentUser()).build();
     }
 }

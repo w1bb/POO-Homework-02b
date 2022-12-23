@@ -23,10 +23,13 @@ public final class User {
     private int tokensCount;
     private int numFreePremiumMovies;
 
+    private ArrayList<String> subscribedGenres;
+
     private ArrayList<Movie> purchasedMovies;
     private ArrayList<Movie> watchedMovies;
     private ArrayList<Movie> likedMovies;
     private ArrayList<Movie> ratedMovies;
+
     private ArrayList<Notification> notifications;
 
     public User(final String name, final String password, final AccountType accountType,
@@ -38,10 +41,12 @@ public final class User {
         this.balance = balance;
 
         this.tokensCount = 0;
+        this.subscribedGenres = new ArrayList<>();
         this.purchasedMovies = new ArrayList<>();
         this.watchedMovies = new ArrayList<>();
         this.likedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
+
         this.notifications = new ArrayList<>();
 
         this.numFreePremiumMovies = BONUS_FREE_MOVIES;
@@ -140,6 +145,14 @@ public final class User {
         return returnNode;
     }
 
+    public ArrayList<String> getSubscribedGenres() {
+        return subscribedGenres;
+    }
+
+    public void setSubscribedGenres(ArrayList<String> subscribedGenres) {
+        this.subscribedGenres = subscribedGenres;
+    }
+
     public ArrayList<Movie> getPurchasedMovies() {
         return purchasedMovies;
     }
@@ -170,6 +183,10 @@ public final class User {
 
     public void setRatedMovies(final ArrayList<Movie> ratedMovies) {
         this.ratedMovies = ratedMovies;
+    }
+
+    public ArrayList<Notification> getNotifications() {
+        return notifications;
     }
 
     /**
