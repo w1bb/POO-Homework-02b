@@ -6,6 +6,9 @@ import execution.interpreters.GeneralInterpreter;
 import execution.pages.PageFactory;
 import execution.pages.PageQuery;
 import execution.pages.PageResponse;
+import fileio.ActionsInput;
+
+import java.util.ArrayList;
 
 public final class ChangePageInterpreter implements GeneralInterpreter {
     private final ObjectMapper objectMapper;

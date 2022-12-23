@@ -6,13 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 class Config {
     private String homework;
@@ -101,10 +95,9 @@ public final class Test {
     private static final String OUT_FILE = "results.out";
     private static final File TEST_OUT_FILE = new File(OUT_FILE);
 
-    private static final File CONFIG_FILE =
-            new File(CHECKER_RESOURCES_FOLDER + "config.json");
+    private static final File CONFIG_FILE = new File(CHECKER_RESOURCES_FOLDER + "config.json");
 
-    private static final int MAX_MILLISECONDS_PER_TEST = 1000;
+    private static final int MAX_MILLISECONDS_PER_TEST = 100;
 
     private static int score = 0;
     private static int totalScore = 0;
@@ -117,27 +110,26 @@ public final class Test {
      *
      * @param argv String[]
      */
-    public static void main(final String[] argv)
-            throws IOException, ExecutionException, InterruptedException, TimeoutException {
+    public static void main(final String[] argv) {
         runTests();
         preTestCleanUp();
         System.exit(0);
     }
 
-    private static Config loadConfig() throws IOException {
+    private static Config loadConfig() {
         ObjectMapper objectMapper = new ObjectMapper();
-        //try {
-            return objectMapper.readValue(CONFIG_FILE, Config.class);
-        //} catch (IOException e) {
-        //    System.out.println("Could not find config file.");
-        //    System.exit(-1);
-        //}
 
-//        return null;
+        try {
+            return objectMapper.readValue(CONFIG_FILE, Config.class);
+        } catch (IOException e) {
+            System.out.println("Could not find config file.");
+            System.exit(-1);
+        }
+
+        return null;
     }
 
-    private static void runTests()
-            throws IOException, ExecutionException, InterruptedException, TimeoutException {
+    private static void runTests() {
         Config config = loadConfig();
         totalScore = config.getCheckstyleScore();
         int manualScore = config.getReadmeScore() + config.getHomeworkDesignScore();
@@ -147,13 +139,14 @@ public final class Test {
 
             preTestCleanUp();
 
-            final String[] testArgv = createTestArgv(testFile);
+            final String[] testArgv = createTestArgv(testFile, testFileName);
             final Future<Object> future = createTimerTask(testArgv);
 
             runTest(testFileName, config, future);
         }
 
         score += Checkstyle.testCheckstyle();
+
         System.out.println("Total score: .......................... " + score + "/" + totalScore);
         System.out.println("Up to "
                 + manualScore
@@ -162,30 +155,26 @@ public final class Test {
         System.out.println("This value can be exceeded for great implementations.");
     }
 
-    private static void runTest(
-            final String testFileName,
-            final Config config,
-            final Future<Object> task
-    ) throws IOException, ExecutionException, InterruptedException, TimeoutException {
+    private static void runTest(final String testFileName, final Config config, final Future<Object> task) {
         ObjectMapper objectMapper = new ObjectMapper();
         File refFile = new File(CHECKER_RESOURCES_FOLDER + REF_FOLDER + testFileName);
 
-        //try {
-            task.get(MAX_MILLISECONDS_PER_TEST, TimeUnit.MILLISECONDS);
-        //} catch (TimeoutException | InterruptedException | ExecutionException e) {
-        //    printMessage(testFileName, "Timeout");
-        //    return;
-        //} catch (Exception e) {
-        //    printMessage(testFileName, "Program ended with exception: " + e.getMessage());
-        //    return;
-        //} finally {
-        //    task.cancel(true);
-        //}
+        try {
+            task.get(MAX_MILLISECONDS_PER_TEST, TimeUnit.MINUTES);
+        } catch (TimeoutException e) {
+            printMessage(testFileName, "Timeout");
+            return;
+        } catch (Exception e) {
+            printMessage(testFileName, "Program ended with exception: " + e.getMessage());
+            return;
+        } finally {
+            task.cancel(true);
+        }
 
         if (!TEST_OUT_FILE.exists()) {
             printMessage(testFileName, "Output file not found. Skipping test...");
         } else {
-            //try {
+            try {
                 var actual = objectMapper.readTree(TEST_OUT_FILE);
                 var expected = objectMapper.readTree(refFile);
 
@@ -198,9 +187,9 @@ public final class Test {
                 } else {
                     printMessage(testFileName, "0/" + testScore, true);
                 }
-            //} catch (IOException e) {
-            //    printMessage(testFileName, "Output file badly formatted. Skipping test...");
-            //}
+            } catch (IOException e) {
+                printMessage(testFileName, "Output file badly formatted. Skipping test...");
+            }
         }
     }
 
@@ -214,10 +203,10 @@ public final class Test {
         return executor.submit(task);
     }
 
-    private static String[] createTestArgv(final File testFile) {
+    private static String[] createTestArgv(final File testFile, String testFileName) {
         List<String> listArgv = new ArrayList<>();
         listArgv.add(testFile.getAbsolutePath());
-        listArgv.add(OUT_FILE);
+        listArgv.add(CHECKER_RESOURCES_FOLDER + REF_FOLDER + testFileName);
         String[] argv = new String[0];
         return listArgv.toArray(argv);
     }
@@ -226,18 +215,11 @@ public final class Test {
         TEST_OUT_FILE.delete();
     }
 
-    private static void printMessage(
-            final String testFileName,
-            final String message
-    ) {
+    private static void printMessage(final String testFileName, final String message) {
         printMessage(testFileName, message, false);
     }
 
-    private static void printMessage(
-            final String testFileName,
-            final String message,
-            final boolean trail
-    ) {
+    private static void printMessage(final String testFileName, final String message, final boolean trail) {
         String fileName = testFileName.split("\\.")[0];
         if (trail) {
             System.out.println("[" + fileName + "]: ..................... " + message);
@@ -246,10 +228,7 @@ public final class Test {
         }
     }
 
-    private static int testMaxScore(
-            final Config config,
-            final String testFileName
-    ) {
+    private static int testMaxScore(final Config config, final String testFileName) {
         for (TestType testType : config.getTestTypes()) {
             if (testFileName.contains(testType.getType())) {
                 return testType.getScore();

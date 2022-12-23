@@ -24,7 +24,8 @@ public final class SeeDetailsPage extends Page {
                         "movies",
                         "upgrades",
                         "logout")));
-        currentMovie = null;
+        this.forAuth = true;
+        this.currentMovie = null;
     }
 
     /**

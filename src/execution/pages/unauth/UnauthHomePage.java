@@ -15,6 +15,7 @@ public final class UnauthHomePage extends Page {
                 new ArrayList<>(Arrays.asList(
                         "login",
                         "register")));
+        this.forAuth = false;
     }
 
     /**

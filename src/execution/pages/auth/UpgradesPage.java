@@ -17,6 +17,7 @@ public final class UpgradesPage extends Page {
                         "auth-homepage",
                         "movies",
                         "logout")));
+        this.forAuth = true;
     }
 
     /**

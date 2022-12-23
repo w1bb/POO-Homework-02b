@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.AccountType;
 import execution.movies.Movie;
+import execution.notifications.Notification;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public final class User {
@@ -25,6 +27,7 @@ public final class User {
     private ArrayList<Movie> watchedMovies;
     private ArrayList<Movie> likedMovies;
     private ArrayList<Movie> ratedMovies;
+    private ArrayList<Notification> notifications;
 
     public User(final String name, final String password, final AccountType accountType,
                 final String country, final int balance) {
@@ -39,6 +42,7 @@ public final class User {
         this.watchedMovies = new ArrayList<>();
         this.likedMovies = new ArrayList<>();
         this.ratedMovies = new ArrayList<>();
+        this.notifications = new ArrayList<>();
 
         this.numFreePremiumMovies = BONUS_FREE_MOVIES;
     }
@@ -126,6 +130,12 @@ public final class User {
         returnNode.set("watchedMovies", watchedNode);
         returnNode.set("likedMovies", likedNode);
         returnNode.set("ratedMovies", ratedNode);
+
+        ArrayNode notificationsNode = objectMapper.createArrayNode();
+        for (Notification notification : notifications) {
+            notificationsNode.add(notification.toObjectNode());
+        }
+        returnNode.set("notifications", notificationsNode);
 
         return returnNode;
     }

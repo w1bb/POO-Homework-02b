@@ -8,11 +8,13 @@ public abstract class Page {
     protected String name;
     protected ArrayList<String> visitablePages;
     protected ObjectMapper objectMapper;
+    protected boolean forAuth;
 
     public Page(final String name, final ArrayList<String> visitablePages) {
         this.name = name;
         this.visitablePages = visitablePages;
         this.objectMapper = new ObjectMapper();
+        this.forAuth = false;
     }
 
     /**
@@ -38,4 +40,12 @@ public abstract class Page {
      * @return A PageResponse object containing useful information about the request.
      */
     public abstract PageResponse afterEnter(PageQuery pq);
+
+    public String getName() {
+        return name;
+    }
+
+    public final boolean isForAuth() {
+        return forAuth;
+    }
 }

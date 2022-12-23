@@ -4,12 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.movies.MoviesDB;
 import execution.users.User;
+import fileio.ActionsInput;
+
+import javax.swing.*;
+import java.util.ArrayList;
 
 public final class PageResponse {
     private final Page newPage;
     private final User newUser;
     private final ObjectNode actionOutput;
     private final MoviesDB moviesDBSubset;
+    private final ArrayList<String> visitedPages;
+    private final ArrayList<ActionsInput> pastActions;
+    private final ActionsInput rerunAction;
 
     public Page getNewPage() {
         return newPage;
@@ -27,18 +34,31 @@ public final class PageResponse {
         return moviesDBSubset;
     }
 
+    public ArrayList<String> getVisitedPages() {
+        return visitedPages;
+    }
+
+    public ActionsInput getRerunAction() {
+        return rerunAction;
+    }
+
     public static final class Builder {
         private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
         private Page newPage;
         private User newUser;
         private ObjectNode actionOutput;
         private MoviesDB moviesDBSubset;
+        private ArrayList<String> visitedPages;
+        private ArrayList<ActionsInput> pastActions;
+        private ActionsInput rerunAction;
 
         public Builder() {
             this.newPage = null;
             this.newUser = null;
             this.actionOutput = null;
             this.moviesDBSubset = null;
+            this.visitedPages = null;
+            this.rerunAction = null;
         }
 
         /**
@@ -82,6 +102,36 @@ public final class PageResponse {
         }
 
         /**
+         * This method sets the visitedPages filed for the builder.
+         * @param visitedPagesVal The new visitedPages value.
+         * @return The builder.
+         */
+        public Builder visitedPages(final ArrayList<String> visitedPagesVal) {
+            this.visitedPages = visitedPagesVal;
+            return this;
+        }
+
+        /**
+         * This method sets the pastActions filed for the builder.
+         * @param pastActionsVal The new pastActions value.
+         * @return The builder.
+         */
+        public Builder pastActions(final ArrayList<ActionsInput> pastActionsVal) {
+            this.pastActions = pastActionsVal;
+            return this;
+        }
+
+        /**
+         * This method sets the rerunAction filed for the builder.
+         * @param rerunActionVal The new rerunAction value.
+         * @return The builder.
+         */
+        public Builder rerunAction(final ActionsInput rerunActionVal) {
+            this.rerunAction = rerunActionVal;
+            return this;
+        }
+
+        /**
          * This method constructs the corresponding PageResponse.
          * @return The corresponding PageResponse.
          */
@@ -105,6 +155,9 @@ public final class PageResponse {
         this.newUser = builder.newUser;
         this.actionOutput = builder.actionOutput;
         this.moviesDBSubset = builder.moviesDBSubset;
+        this.visitedPages = builder.visitedPages;
+        this.pastActions = builder.pastActions;
+        this.rerunAction = builder.rerunAction;
     }
 
     @Override

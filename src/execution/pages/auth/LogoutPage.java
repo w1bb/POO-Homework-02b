@@ -10,6 +10,7 @@ public final class LogoutPage extends Page {
 
     private LogoutPage() {
         super("logout", null);
+        this.forAuth = true;
     }
 
     /**

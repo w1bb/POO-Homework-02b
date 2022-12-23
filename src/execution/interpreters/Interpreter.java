@@ -3,6 +3,7 @@ package execution.interpreters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import execution.interpreters.back.BackInterpreter;
 import execution.interpreters.changepage.ChangePageInterpreter;
 import execution.interpreters.onpage.OnPageInterpreter;
 import execution.movies.MoviesDB;
@@ -27,6 +28,8 @@ public final class Interpreter implements GeneralInterpreter {
 
     private final OnPageInterpreter onPageInterpreter;
 
+    private final BackInterpreter backInterpreter;
+
     public Interpreter(final Input input) {
         this.usersDB = new UsersDB();
         this.moviesDB = new MoviesDB();
@@ -36,6 +39,7 @@ public final class Interpreter implements GeneralInterpreter {
 
         changePageInterpreter = new ChangePageInterpreter();
         onPageInterpreter = new OnPageInterpreter();
+        backInterpreter = new BackInterpreter();
     }
 
     /**
@@ -44,13 +48,19 @@ public final class Interpreter implements GeneralInterpreter {
      * @return A PageResponse containing the information required by the Interpreter.
      */
     public PageResponse executeAction(final PageQuery pq) {
-        if (pq.getCurrentActionsInput().getType().equals("change page")) {
-            return changePageInterpreter.executeAction(pq);
-        } else if (pq.getCurrentActionsInput().getType().equals("on page")) {
-            return onPageInterpreter.executeAction(pq);
+        PageResponse returnValue = switch (pq.getCurrentActionsInput().getType()) {
+            case "change page" -> changePageInterpreter.executeAction(pq);
+            case "on page" -> onPageInterpreter.executeAction(pq);
+            case "back" -> backInterpreter.executeAction(pq);
+            // This should NEVER be reached
+            default -> null;
+        };
+        assert returnValue != null;
+        if (returnValue.getRerunAction() != null) {
+            pq.setCurrentActionsInput(returnValue.getRerunAction());
+            return executeAction(pq);
         }
-        // This should NEVER be reached
-        return null;
+        return returnValue;
     }
 
     /**
@@ -113,6 +123,14 @@ public final class Interpreter implements GeneralInterpreter {
                 currentPage = pageResponse.getNewPage();
                 pq.setCurrentPage(currentPage);
                 pageResponse = currentPage.afterEnter(pq);
+            }
+            // The page changed
+            if (originalCurrentPage != currentPage) {
+                ArrayList<String> visitedPages = pq.getVisitedPages();
+                visitedPages.add(currentPage.getName());
+                ArrayList<ActionsInput> pastActions = pq.getPastActions();
+                pastActions.add(actionsInput);
+                System.out.println(visitedPages);
             }
         }
         return returnNode;

@@ -20,6 +20,7 @@ public final class MoviesPage extends Page {
                         "movies",
                         "see details",
                         "logout")));
+        this.forAuth = true;
     }
 
     /**
