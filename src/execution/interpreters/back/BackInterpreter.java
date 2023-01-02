@@ -27,9 +27,20 @@ public final class BackInterpreter implements GeneralInterpreter {
             System.out.println("Hello there 2!");
             return PageResponse.Builder.createError();
         }
+        visitedPages.remove(visitedPages.size() - 1);
         ArrayList<ActionsInput> pastActions = pq.getPastActions();
+        pastActions.remove(pastActions.size() - 1);
+        ActionsInput pastAction = pastActions.get(pastActions.size() - 1);
         PageResponse.Builder builder = new PageResponse.Builder();
-        builder.rerunAction(pastActions.get(pastActions.size() - 2));
+        if (pastAction != null
+                && !pastAction.getType().equals("on page")
+                && pastAction.getFeature() != null
+                && !pastAction.getFeature().equals("login")
+                && !pastAction.getFeature().equals("register")) {
+            builder.rerunAction(pastAction);
+        } else if (pastAction.getFeature() == null) {
+            builder.rerunAction(pastAction);
+        }
         return builder.newUser(pq.getCurrentUser()).build();
     }
 }

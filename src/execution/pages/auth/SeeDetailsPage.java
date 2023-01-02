@@ -150,10 +150,11 @@ public final class SeeDetailsPage extends Page {
      * @return A PageResponse object containing useful information about the request.
      */
     public PageResponse execute(final PageQuery pq) {
+        System.out.println("This went right here: " + pq.toString());
         if (currentMovie == null) {
             return PageResponse.Builder.createError();
         }
-        // Special case
+        // Special case (old tests)
         if (pq.getCurrentActionsInput().getType().equals("subscribe")) {
             return executeSubscribe(pq);
         }
@@ -162,6 +163,7 @@ public final class SeeDetailsPage extends Page {
             case "watch" -> executeWatch(pq);
             case "like" -> executeLike(pq);
             case "rate" -> executeRate(pq);
+            case "subscribe" -> executeSubscribe(pq);
             default -> PageResponse.Builder.createError(); // This should NEVER be reached
         };
     }
