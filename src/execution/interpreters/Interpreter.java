@@ -143,9 +143,12 @@ public final class Interpreter implements GeneralInterpreter {
             // The page changed
             if (originalCurrentPage != currentPage) {
                 ArrayList<String> visitedPages = pq.getVisitedPages();
-                visitedPages.add(currentPage.getName());
-                ArrayList<ActionsInput> pastActions = pq.getPastActions();
-                pastActions.add(actionsInput);
+                if (visitedPages.size() == 0
+                        || visitedPages.get(visitedPages.size() - 1) != currentPage.getName()) {
+                    visitedPages.add(currentPage.getName());
+                    ArrayList<ActionsInput> pastActions = pq.getPastActions();
+                    pastActions.add(actionsInput);
+                }
             }
             System.out.println(pq.getVisitedPages());
         }

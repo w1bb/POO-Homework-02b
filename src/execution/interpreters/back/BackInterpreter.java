@@ -37,9 +37,14 @@ public final class BackInterpreter implements GeneralInterpreter {
                 && pastAction.getFeature() != null
                 && !pastAction.getFeature().equals("login")
                 && !pastAction.getFeature().equals("register")) {
+            System.out.println("With rereun!");
             builder.rerunAction(pastAction);
         } else if (pastAction.getFeature() == null) {
+            System.out.println("With rereun!");
             builder.rerunAction(pastAction);
+        } else {
+//            return PageResponse.Builder.createError();
+            builder.newPage(PageFactory.getPage("auth-homepage"));
         }
         return builder.newUser(pq.getCurrentUser()).build();
     }
