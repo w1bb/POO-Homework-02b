@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.AccountType;
 import execution.movies.Movie;
 import execution.notifications.Notification;
+import execution.notifications.NotificationType;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -214,5 +215,27 @@ public final class User {
         tokensCount -= PREMIUM_COST;
         accountType = AccountType.PREMIUM;
         return true;
+    }
+
+    public void notify(Notification notification) {
+        final Movie movie = notification.getMovie();
+        if (notification.getNotificationType() == NotificationType.DATABASE_ADD) {
+            for (String movieGenre : movie.getGenres()) {
+                if (subscribedGenres.contains(movieGenre)) {
+                    notifications.add(notification);
+                    break;
+                }
+            }
+        } else if (notification.getNotificationType() == NotificationType.DATABASE_REMOVE) {
+            if (purchasedMovies.contains(movie)) {
+                purchasedMovies.remove(movie);
+                if (accountType == AccountType.PREMIUM) {
+                    numFreePremiumMovies = numFreePremiumMovies + 1;
+                } else {
+                    tokensCount = tokensCount + movie.getTokensCost();
+                }
+                notifications.add(notification);
+            }
+        }
     }
 }

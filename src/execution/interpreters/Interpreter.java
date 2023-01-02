@@ -3,12 +3,16 @@ package execution.interpreters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import execution.AccountType;
 import execution.interpreters.back.BackInterpreter;
 import execution.interpreters.changepage.ChangePageInterpreter;
 import execution.interpreters.database.DatabaseInterpreter;
 import execution.interpreters.onpage.OnPageInterpreter;
 import execution.interpreters.subscribe.SubscribeInterpreter;
+import execution.movies.Movie;
 import execution.movies.MoviesDB;
+import execution.notifications.Notification;
+import execution.notifications.NotificationType;
 import execution.pages.Page;
 import execution.pages.PageQuery;
 import execution.pages.PageResponse;
@@ -142,6 +146,12 @@ public final class Interpreter implements GeneralInterpreter {
                 pastActions.add(actionsInput);
                 System.out.println(visitedPages);
             }
+        }
+        if (currentUser != null && currentUser.getAccountType() == AccountType.PREMIUM) {
+            Movie recommendation = moviesDB.getRecommendation(currentUser);
+            Notification notification =
+                    new Notification(recommendation, NotificationType.RECOMMENDATION);
+            returnNode.add(notification.toObjectNode());
         }
         return returnNode;
     }

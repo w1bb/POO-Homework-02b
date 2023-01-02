@@ -55,26 +55,8 @@ public final class UsersDB {
 
     public void notifyUsers(Notification notification) {
         assert notification != null;
-        final Movie movie = notification.getMovie();
         for (User user : users) {
-            if (notification.getNotificationType() == NotificationType.DATABASE_ADD) {
-                for (String movieGenre : movie.getGenres()) {
-                    if (user.getSubscribedGenres().contains(movieGenre)) {
-                        user.getNotifications().add(notification);
-                        break;
-                    }
-                }
-            } else if (notification.getNotificationType() == NotificationType.DATABASE_REMOVE) {
-                if (user.getPurchasedMovies().contains(notification.getMovie())) {
-                    user.getPurchasedMovies().remove(notification.getMovie());
-                    if (user.getAccountType() == AccountType.PREMIUM) {
-                        user.setNumFreePremiumMovies(user.getNumFreePremiumMovies() + 1);
-                    } else {
-                        user.setTokensCount(user.getTokensCount() + movie.getTokensCost());
-                    }
-                    user.getNotifications().add(notification);
-                }
-            }
+            user.notify(notification);
         }
     }
 }

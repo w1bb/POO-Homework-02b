@@ -32,7 +32,18 @@ public final class Notification {
     public ObjectNode toObjectNode() {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode returnNode = objectMapper.createObjectNode();
-        returnNode.put("movieName", movie.getName());
+
+        if (notificationType == NotificationType.RECOMMENDATION) {
+            if (movie != null) {
+                returnNode.put("movieName", movie.getName());
+            } else {
+                returnNode.put("movieName", "No recommendation");
+            }
+        } else {
+            assert movie != null;
+            returnNode.put("movieName", movie.getName());
+        }
+
         returnNode.put("message", notificationType.toString());
         return returnNode;
     }

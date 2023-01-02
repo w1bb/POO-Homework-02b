@@ -153,6 +153,10 @@ public final class MoviesDB {
         return filteredDB;
     }
 
+    public Movie getRecommendation(User user) {
+
+    }
+
     /**
      * This method converts the database into an ArrayNode of information.
      * @return An outputable ArrayNode.

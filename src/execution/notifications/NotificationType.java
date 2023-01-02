@@ -11,6 +11,11 @@ public enum NotificationType {
         public String toString() {
             return "REMOVE";
         }
+    }, RECOMMENDATION {
+        @Override
+        public String toString() {
+            return "Recommendation";
+        }
     };
 
     public String toString() {

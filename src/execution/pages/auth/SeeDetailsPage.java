@@ -138,8 +138,8 @@ public final class SeeDetailsPage extends Page {
         }
         if (!currentUser.getRatedMovies().contains(currentMovie)) {
             currentUser.getRatedMovies().add(currentMovie);
-            currentMovie.rate(currentUser, pq.getCurrentActionsInput().getRate());
         }
+        currentMovie.rate(currentUser, pq.getCurrentActionsInput().getRate());
         PageResponse.Builder builder = new PageResponse.Builder();
         return builder.newUser(currentUser).actionOutput(getCurrentMovieAsObjectNode()).build();
     }
