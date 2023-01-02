@@ -26,7 +26,7 @@ public final class MoviesDB {
             }
         }
         movies.add(movieToAdd);
-        return new Notification(movieToAdd.getName(), NotificationType.DATABASE_ADD);
+        return new Notification(movieToAdd, NotificationType.DATABASE_ADD);
     }
 
     /**

@@ -52,8 +52,14 @@ public final class UsersDB {
 
     public void notifyUsers(Notification notification) {
         assert notification != null;
+        ArrayList<String> movieGenres = notification.getMovie().getGenres();
         for (User user : users) {
-            user.getNotifications().add(notification);
+            for (String movieGenre : movieGenres) {
+                if (user.getSubscribedGenres().contains(movieGenre)) {
+                    user.getNotifications().add(notification);
+                    break;
+                }
+            }
         }
     }
 }

@@ -162,7 +162,7 @@ public final class Movie {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode returnNode = objectMapper.createObjectNode();
         returnNode.put("name", name);
-        returnNode.put("year", year);
+        returnNode.put("year", Integer.toString(year));
         returnNode.put("duration", duration);
         returnNode.set("genres", objectMapper.valueToTree(genres));
         returnNode.set("actors", objectMapper.valueToTree(actors));

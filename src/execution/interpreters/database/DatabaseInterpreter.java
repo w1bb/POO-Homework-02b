@@ -11,6 +11,7 @@ public final class DatabaseInterpreter implements GeneralInterpreter {
     private PageResponse executeAdd(PageQuery pq) {
         Movie newMovie = pq.getCurrentActionsInput().getAddedMovie().toMovie();
         Notification notification = pq.getMoviesDB().add(newMovie);
+        System.out.println("WE ARE HERE ONCE IN A LIFETIME!");
         if (notification == null) {
             return PageResponse.Builder.createError();
         }

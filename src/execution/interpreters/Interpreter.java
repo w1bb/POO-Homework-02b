@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.interpreters.back.BackInterpreter;
 import execution.interpreters.changepage.ChangePageInterpreter;
+import execution.interpreters.database.DatabaseInterpreter;
 import execution.interpreters.onpage.OnPageInterpreter;
 import execution.interpreters.subscribe.SubscribeInterpreter;
 import execution.movies.MoviesDB;
@@ -33,6 +34,8 @@ public final class Interpreter implements GeneralInterpreter {
 
     private final SubscribeInterpreter subscribeInterpreter;
 
+    private final DatabaseInterpreter databaseInterpreter;
+
     public Interpreter(final Input input) {
         this.usersDB = new UsersDB();
         this.moviesDB = new MoviesDB();
@@ -44,6 +47,7 @@ public final class Interpreter implements GeneralInterpreter {
         onPageInterpreter = new OnPageInterpreter();
         backInterpreter = new BackInterpreter();
         subscribeInterpreter = new SubscribeInterpreter();
+        databaseInterpreter = new DatabaseInterpreter();
     }
 
     /**
@@ -57,6 +61,7 @@ public final class Interpreter implements GeneralInterpreter {
             case "on page" -> onPageInterpreter.executeAction(pq);
             case "subscribe" -> subscribeInterpreter.executeAction(pq);
             case "back" -> backInterpreter.executeAction(pq);
+            case "database" -> databaseInterpreter.executeAction(pq);
             // This should NEVER be reached
             default -> null;
         };
