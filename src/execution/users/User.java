@@ -236,6 +236,8 @@ public final class User {
                 }
                 notifications.add(notification);
             }
+        } else {
+            notifications.add(notification);
         }
     }
 }

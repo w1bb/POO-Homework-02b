@@ -86,7 +86,7 @@ public final class MoviesPage extends Page {
         }
 
         MoviesDB curatedList = pq.getMoviesDB().filter(
-                sortRatingAscending, sortDurationAscending,
+                sortRatingAscending, sortDurationAscending, null,
                 containsActors, containsGenres,
                 pq.getCurrentUser());
 

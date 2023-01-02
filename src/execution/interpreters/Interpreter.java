@@ -151,7 +151,12 @@ public final class Interpreter implements GeneralInterpreter {
             Movie recommendation = moviesDB.getRecommendation(currentUser);
             Notification notification =
                     new Notification(recommendation, NotificationType.RECOMMENDATION);
-            returnNode.add(notification.toObjectNode());
+            currentUser.notify(notification);
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.set("error", null);
+            objectNode.set("currentMoviesList", null);
+            objectNode.set("currentUser", currentUser.toObjectNode());
+            returnNode.add(objectNode);
         }
         return returnNode;
     }
