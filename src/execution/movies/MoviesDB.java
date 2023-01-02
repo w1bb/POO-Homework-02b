@@ -29,6 +29,15 @@ public final class MoviesDB {
         return new Notification(movieToAdd, NotificationType.DATABASE_ADD);
     }
 
+    public Notification delete(final String movieToRemove) {
+        Movie movie = searchExact(movieToRemove, null);
+        if (movie == null) {
+            return null;
+        }
+        movies.remove(movie);
+        return new Notification(movie, NotificationType.DATABASE_REMOVE);
+    }
+
     /**
      * This method searches for a movie that starts with a given name and is available for a given
      * user.

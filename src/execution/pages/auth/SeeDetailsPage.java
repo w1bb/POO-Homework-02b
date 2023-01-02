@@ -63,7 +63,13 @@ public final class SeeDetailsPage extends Page {
         // Check if it has already been purchased
         User currentUser = pq.getCurrentUser();
 
+        // Check if the user doesn't already own the movie
         ArrayList<Movie> purchasedMovies = currentUser.getPurchasedMovies();
+        if (purchasedMovies.contains(currentMovie)) {
+            // Cannot buy, already bought
+            return PageResponse.Builder.createError();
+        }
+
         if (currentUser.getNumFreePremiumMovies() > 0
                 && currentUser.getAccountType() == AccountType.PREMIUM) {
             // It is already free

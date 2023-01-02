@@ -6,6 +6,11 @@ public enum NotificationType {
         public String toString() {
             return "ADD";
         }
+    }, DATABASE_REMOVE {
+        @Override
+        public String toString() {
+            return "REMOVE";
+        }
     };
 
     public String toString() {

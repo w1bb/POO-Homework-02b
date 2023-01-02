@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.movies.Movie;
 
-public class Notification {
+public final class Notification {
     private Movie movie;
     private NotificationType notificationType;
 

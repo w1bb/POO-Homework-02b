@@ -51,6 +51,9 @@ public final class Movie {
      * @return true if and only if the movie can be watched by a given user.
      */
     public boolean isBannedForUser(final User user) {
+        if (user == null) {
+            return false;
+        }
         return this.countriesBanned.contains(user.getCountry());
     }
 
