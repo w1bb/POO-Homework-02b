@@ -17,14 +17,11 @@ public final class BackInterpreter implements GeneralInterpreter {
     @Override
     public PageResponse executeAction(PageQuery pq) {
         ArrayList<String> visitedPages = pq.getVisitedPages();
-        System.out.println("Hello there!");
         if (!pq.getCurrentPage().isForAuth() || visitedPages.size() < 2) {
-            System.out.println("Hello there 1!");
             return PageResponse.Builder.createError();
         }
         String pageName = visitedPages.get(visitedPages.size() - 2);
         if (!PageFactory.getPage(pageName).isForAuth()) {
-            System.out.println("Hello there 2!");
             return PageResponse.Builder.createError();
         }
         visitedPages.remove(visitedPages.size() - 1);
@@ -37,10 +34,8 @@ public final class BackInterpreter implements GeneralInterpreter {
                 && pastAction.getFeature() != null
                 && !pastAction.getFeature().equals("login")
                 && !pastAction.getFeature().equals("register")) {
-            System.out.println("With rereun!");
             builder.rerunAction(pastAction);
-        } else if (pastAction.getFeature() == null) {
-            System.out.println("With rereun!");
+        } else if (pastAction != null && pastAction.getFeature() == null) {
             builder.rerunAction(pastAction);
         } else {
 //            return PageResponse.Builder.createError();
