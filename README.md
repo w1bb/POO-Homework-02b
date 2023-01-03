@@ -1,4 +1,4 @@
-# POO TV - Part 2
+# POO TV ~ Stage II
 
 This repository is intended to store a complex user-website interaction simulation.
 It is part of a computer science assignment (POO / 2nd year, 1st semester).
@@ -13,8 +13,6 @@ This project will be available [on Github](https://github.com/w1bb/POO-Homework-
 deadline passes. The original homework is available on
 [our OCW](https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa2), but a copy of the text shall
 be provided in this repository.
-
-> **Note:** The last date the links were accessed is: 03 Jan. 2023.
 
 ## License
 
@@ -101,4 +99,17 @@ file organization convention, so:
 
 ## Documentation
 
-TODO
+### Interpreters
+
+In short, the control is passed down from the `Main` class to the `Interpreter` class - the latter
+piece of code _understands_ the commands and translates them to an actual user-website interaction.
+There are multiple subinterpreters used throughout the project that split the work based on its
+actual meaning, including:
+
+* `BackInterpreter` - specifically designed for the `back` command;
+* `ChangePageInterpreter` - called whenever a `change page` action is to be resolved;
+* `DatabaseInterpreter` - used when the administrator has to update the movie database;
+* `OnPageInterpreter` - called when a `on page` action is queried.
+
+All of these interpreters implement the `GeneralInterpreter` interface, which exposes the
+`executeAction()` interface required everywhere.
