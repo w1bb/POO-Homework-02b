@@ -30,7 +30,7 @@ public final class User {
     private ArrayList<Movie> likedMovies;
     private ArrayList<Movie> ratedMovies;
 
-    private ArrayList<Notification> notifications;
+    private final ArrayList<Notification> notifications;
 
     public User(final String name, final String password, final AccountType accountType,
                 final String country, final int balance) {
@@ -94,55 +94,6 @@ public final class User {
 
     public void setAccountType(final AccountType accountType) {
         this.accountType = accountType;
-    }
-
-    /**
-     * This method converts the current user to an outputable ObjectNode.
-     * @return An ObjectNode containing all the information of a given user.
-     */
-    public ObjectNode toObjectNode() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode returnNode = objectMapper.createObjectNode();
-
-        ObjectNode credentialsNode = objectMapper.createObjectNode();
-        credentialsNode.put("name", name);
-        credentialsNode.put("password", password);
-        credentialsNode.put("accountType", accountType.toString());
-        credentialsNode.put("country", country);
-        credentialsNode.put("balance", String.valueOf(balance));
-        returnNode.set("credentials", credentialsNode);
-
-        returnNode.put("tokensCount", tokensCount);
-        returnNode.put("numFreePremiumMovies", numFreePremiumMovies);
-
-        ArrayNode purchasedNode = objectMapper.createArrayNode();
-        for (Movie movie : this.purchasedMovies) {
-            purchasedNode.add(movie.toObjectNode());
-        }
-        ArrayNode watchedNode = objectMapper.createArrayNode();
-        for (Movie movie : this.watchedMovies) {
-            watchedNode.add(movie.toObjectNode());
-        }
-        ArrayNode likedNode = objectMapper.createArrayNode();
-        for (Movie movie : this.likedMovies) {
-            likedNode.add(movie.toObjectNode());
-        }
-        ArrayNode ratedNode = objectMapper.createArrayNode();
-        for (Movie movie : this.ratedMovies) {
-            ratedNode.add(movie.toObjectNode());
-        }
-        returnNode.set("purchasedMovies", purchasedNode);
-        returnNode.set("watchedMovies", watchedNode);
-        returnNode.set("likedMovies", likedNode);
-        returnNode.set("ratedMovies", ratedNode);
-
-        ArrayNode notificationsNode = objectMapper.createArrayNode();
-        for (Notification notification : notifications) {
-            notificationsNode.add(notification.toObjectNode());
-        }
-        returnNode.set("notifications", notificationsNode);
-
-        return returnNode;
     }
 
     public ArrayList<String> getSubscribedGenres() {
@@ -243,5 +194,54 @@ public final class User {
         } else {
             notifications.add(notification);
         }
+    }
+
+    /**
+     * This method converts the current user to an outputable ObjectNode.
+     * @return An ObjectNode containing all the information of a given user.
+     */
+    public ObjectNode toObjectNode() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode returnNode = objectMapper.createObjectNode();
+
+        ObjectNode credentialsNode = objectMapper.createObjectNode();
+        credentialsNode.put("name", name);
+        credentialsNode.put("password", password);
+        credentialsNode.put("accountType", accountType.toString());
+        credentialsNode.put("country", country);
+        credentialsNode.put("balance", String.valueOf(balance));
+        returnNode.set("credentials", credentialsNode);
+
+        returnNode.put("tokensCount", tokensCount);
+        returnNode.put("numFreePremiumMovies", numFreePremiumMovies);
+
+        ArrayNode purchasedNode = objectMapper.createArrayNode();
+        for (Movie movie : this.purchasedMovies) {
+            purchasedNode.add(movie.toObjectNode());
+        }
+        ArrayNode watchedNode = objectMapper.createArrayNode();
+        for (Movie movie : this.watchedMovies) {
+            watchedNode.add(movie.toObjectNode());
+        }
+        ArrayNode likedNode = objectMapper.createArrayNode();
+        for (Movie movie : this.likedMovies) {
+            likedNode.add(movie.toObjectNode());
+        }
+        ArrayNode ratedNode = objectMapper.createArrayNode();
+        for (Movie movie : this.ratedMovies) {
+            ratedNode.add(movie.toObjectNode());
+        }
+        returnNode.set("purchasedMovies", purchasedNode);
+        returnNode.set("watchedMovies", watchedNode);
+        returnNode.set("likedMovies", likedNode);
+        returnNode.set("ratedMovies", ratedNode);
+
+        ArrayNode notificationsNode = objectMapper.createArrayNode();
+        for (Notification notification : notifications) {
+            notificationsNode.add(notification.toObjectNode());
+        }
+        returnNode.set("notifications", notificationsNode);
+
+        return returnNode;
     }
 }

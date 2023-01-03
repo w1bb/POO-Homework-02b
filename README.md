@@ -86,6 +86,8 @@ More information about the facade design pattern can be found
 
 ## Coding style convention
 
+### Oracle's file organization convention
+
 The methods and variables will follow
 [Oracle's](https://www.oracle.com/java/technologies/javase/codeconventions-fileorganization.html)
 file organization convention, so:
@@ -96,6 +98,20 @@ file organization convention, so:
 4) Methods: These methods should be grouped by functionality rather than by scope or
    accessibility. For example, a private class method can be in between two public instance
    methods. The goal is to make reading and understanding the code easier.
+
+### `toString()` best practice
+
+Some students were **wrongly** marked down for implementing this method (and I want to call out
+Mihai Soare, he is responsible for doing this).
+
+Since it is best practice to implement a `toString()` method, important classes that required it
+during the debugging stages of the project might still have them implemented to this day.
+[It](http://www.javapractices.com/topic/TopicAction.do?Id=55)
+[is](https://www.baeldung.com/java-tostring)
+[best](https://www.infoworld.com/article/2073619/java-tostring---considerations.html)
+[practice](https://kylec32.medium.com/effective-java-override-tostring-4c1ba07e0bd2)!
+Even [the docs](https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html#toString()) say that
+_"It is recommended that all subclasses override this method"_!
 
 ## Documentation
 
