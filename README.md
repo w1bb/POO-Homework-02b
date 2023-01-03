@@ -131,3 +131,29 @@ A notification, as of right now, is only intended to hold information about a sp
 a new arrival, a deletion or a recommendation. Thus, whilst multiple notification types are possible
 (check out the code for `NotificationType`), notifications should only hold the information about a
 movie and  the notification type itself.
+
+### Pages
+
+Pages are naturally split based on their required login status, meaning that the following packages
+arise:
+* `unauth` - intended to store pages on which the used should be unauthenticated:
+  * `UnauthHomePage` (internally called `unauth-homepage`) - the homepage for unauthenticated users;
+  * `LoginPage` (internally called `login`) - the page that allows a user to log in to the platform;
+  * `RegisterPage` (internally called `register`) - the page that allows a user to register to the
+    platform;
+* `auth` - intended to store pages on which the user has to be authenticated:
+  * `AuthHomePage` (internally called `auth-homepage`) - the homepage for authenticated users;
+  * `LogoutPage` (internally called `logout`) - the page that redirects the user to
+    `unauth-homepage`;
+  * `MoviesPage` (internally called `movies`) - the page that holds the information about the movie
+    database;
+  * `SeeDetailsPage` (internally called `see details`) - the page that holds the information about a
+    specific movie;
+  * `UpgradesPage` (internally called `upgrades`) - the page that allows a user to upgrade to a 
+    premium account or buy tokens.
+
+A `PageFactory` class is provided that converts the internal name of a page into the actual instance
+of the class (there is a single instance of each page since the singleton design pattern is used).
+
+The interpreter(s) communicate with the pages via `PageQuery` instances and the pages communicate
+back to the `Interpreter` via `PageResponse` instances.
