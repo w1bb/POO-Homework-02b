@@ -124,3 +124,10 @@ Users and movies are stored in two different ways:
 
 This way, whenever a mass of users has to be notified / a slice of the movies database is
 requested (e.g. filtered), the interaction is seamless.
+
+### Notifications
+
+A notification, as of right now, is only intended to hold information about a specific movie, be it
+a new arrival, a deletion or a recommendation. Thus, whilst multiple notification types are possible
+(check out the code for `NotificationType`), notifications should only hold the information about a
+movie and  the notification type itself.
