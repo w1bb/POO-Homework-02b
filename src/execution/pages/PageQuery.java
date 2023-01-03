@@ -74,7 +74,7 @@ public final class PageQuery {
         return visitedPages;
     }
 
-    public void setVisitedPages(ArrayList<String> visitedPages) {
+    public void setVisitedPages(final ArrayList<String> visitedPages) {
         this.visitedPages = visitedPages;
     }
 
@@ -82,7 +82,7 @@ public final class PageQuery {
         return pastActions;
     }
 
-    public void setPastActions(ArrayList<ActionsInput> pastActions) {
+    public void setPastActions(final ArrayList<ActionsInput> pastActions) {
         this.pastActions = pastActions;
     }
 

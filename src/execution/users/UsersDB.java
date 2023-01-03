@@ -1,9 +1,6 @@
 package execution.users;
 
-import execution.AccountType;
-import execution.movies.Movie;
 import execution.notifications.Notification;
-import execution.notifications.NotificationType;
 
 import java.util.ArrayList;
 
@@ -53,7 +50,11 @@ public final class UsersDB {
         return false;
     }
 
-    public void notifyUsers(Notification notification) {
+    /**
+     * This method calls the User.notify() method for all the users in the database.
+     * @param notification The notification to be sent to the users.
+     */
+    public void notifyUsers(final Notification notification) {
         assert notification != null;
         for (User user : users) {
             user.notify(notification);

@@ -101,7 +101,6 @@ public final class Interpreter implements GeneralInterpreter {
                 objectNode.set("currentMoviesList", objectMapper.createArrayNode());
                 objectNode.set("currentUser", null);
                 objectNode.put("error", "Error");
-                System.out.println("ERROR\n" + "FROM2: " + pq + "\n");
                 returnNode.add(objectNode);
                 continue;
             }
@@ -119,7 +118,6 @@ public final class Interpreter implements GeneralInterpreter {
                         currentUser = originalCurrentUser;
                         currentPage = originalCurrentPage;
                         returnNode.add(objectNode);
-                        System.out.println("ERROR\n" + "FROM: " + pq + "\n");
                         break;
                     }
                     if (!objectNode.has("currentMoviesList")) {
@@ -150,7 +148,6 @@ public final class Interpreter implements GeneralInterpreter {
                     pastActions.add(actionsInput);
                 }
             }
-            System.out.println(pq.getVisitedPages());
         }
         if (currentUser != null && currentUser.getAccountType() == AccountType.PREMIUM) {
             Movie recommendation = moviesDB.getRecommendation(currentUser);

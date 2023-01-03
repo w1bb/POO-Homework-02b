@@ -8,7 +8,6 @@ import execution.movies.Movie;
 import execution.notifications.Notification;
 import execution.notifications.NotificationType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public final class User {
@@ -150,7 +149,7 @@ public final class User {
         return subscribedGenres;
     }
 
-    public void setSubscribedGenres(ArrayList<String> subscribedGenres) {
+    public void setSubscribedGenres(final ArrayList<String> subscribedGenres) {
         this.subscribedGenres = subscribedGenres;
     }
 
@@ -217,7 +216,12 @@ public final class User {
         return true;
     }
 
-    public void notify(Notification notification) {
+    /**
+     * This method sends the signal that a notification should be received by the current user.
+     * However, the notification is received if and only if the user is the intended recipient.
+     * @param notification The notification that should be interpreted.
+     */
+    public void notify(final Notification notification) {
         final Movie movie = notification.getMovie();
         if (notification.getNotificationType() == NotificationType.DATABASE_ADD) {
             for (String movieGenre : movie.getGenres()) {

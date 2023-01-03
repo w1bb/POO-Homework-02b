@@ -41,8 +41,8 @@ public abstract class Page {
      */
     public abstract PageResponse afterEnter(PageQuery pq);
 
-    public String getName() {
-        return name;
+    public final String getName() {
+        return this.name;
     }
 
     public final boolean isForAuth() {

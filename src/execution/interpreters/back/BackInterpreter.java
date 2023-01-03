@@ -1,8 +1,6 @@
 package execution.interpreters.back;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import execution.interpreters.GeneralInterpreter;
-import execution.interpreters.changepage.ChangePageInterpreter;
 import execution.pages.PageFactory;
 import execution.pages.PageQuery;
 import execution.pages.PageResponse;
@@ -15,7 +13,7 @@ public final class BackInterpreter implements GeneralInterpreter {
     }
 
     @Override
-    public PageResponse executeAction(PageQuery pq) {
+    public PageResponse executeAction(final PageQuery pq) {
         ArrayList<String> visitedPages = pq.getVisitedPages();
         if (!pq.getCurrentPage().isForAuth() || visitedPages.size() < 2) {
             return PageResponse.Builder.createError();
@@ -38,7 +36,6 @@ public final class BackInterpreter implements GeneralInterpreter {
         } else if (pastAction != null && pastAction.getFeature() == null) {
             builder.rerunAction(pastAction);
         } else {
-//            return PageResponse.Builder.createError();
             builder.newPage(PageFactory.getPage("auth-homepage"));
         }
         return builder.newUser(pq.getCurrentUser()).build();

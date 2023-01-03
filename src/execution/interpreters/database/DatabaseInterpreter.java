@@ -8,10 +8,9 @@ import execution.pages.PageResponse;
 
 public final class DatabaseInterpreter implements GeneralInterpreter {
 
-    private PageResponse executeAdd(PageQuery pq) {
+    private PageResponse executeAdd(final PageQuery pq) {
         Movie newMovie = pq.getCurrentActionsInput().getAddedMovie().toMovie();
         Notification notification = pq.getMoviesDB().add(newMovie);
-        System.out.println("WE ARE HERE ONCE IN A LIFETIME!");
         if (notification == null) {
             return PageResponse.Builder.createError();
         }
@@ -20,10 +19,9 @@ public final class DatabaseInterpreter implements GeneralInterpreter {
         return builder.newUser(pq.getCurrentUser()).build();
     }
 
-    private PageResponse executeDelete(PageQuery pq) {
+    private PageResponse executeDelete(final PageQuery pq) {
         String deletedMovie = pq.getCurrentActionsInput().getDeletedMovie();
         Notification notification = pq.getMoviesDB().delete(deletedMovie);
-        System.out.println("AGAIN WE ARE HERE ONCE IN A LIFETIME!");
         if (notification == null) {
             return PageResponse.Builder.createError();
         }
@@ -33,13 +31,11 @@ public final class DatabaseInterpreter implements GeneralInterpreter {
     }
 
     @Override
-    public PageResponse executeAction(PageQuery pq) {
-        if (pq.getCurrentActionsInput().getFeature().equals("add")) {
-            return executeAdd(pq);
-        } else if (pq.getCurrentActionsInput().getFeature().equals("delete")) {
-            return executeDelete(pq);
-        }
-        System.out.println("!!!!!!!!!!!!!!!!" + pq.getCurrentActionsInput().getFeature());
-        return null;
+    public PageResponse executeAction(final PageQuery pq) {
+        return switch (pq.getCurrentActionsInput().getFeature()) {
+            case "add" -> executeAdd(pq);
+            case "delete" -> executeDelete(pq);
+            default -> null;
+        };
     }
 }

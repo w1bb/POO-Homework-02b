@@ -150,7 +150,6 @@ public final class SeeDetailsPage extends Page {
      * @return A PageResponse object containing useful information about the request.
      */
     public PageResponse execute(final PageQuery pq) {
-        System.out.println("This went right here: " + pq.toString());
         if (currentMovie == null) {
             return PageResponse.Builder.createError();
         }

@@ -6,7 +6,6 @@ import execution.movies.MoviesDB;
 import execution.users.User;
 import fileio.ActionsInput;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public final class PageResponse {
@@ -15,7 +14,6 @@ public final class PageResponse {
     private final ObjectNode actionOutput;
     private final MoviesDB moviesDBSubset;
     private final ArrayList<String> visitedPages;
-    private final ArrayList<ActionsInput> pastActions;
     private final ActionsInput rerunAction;
 
     public Page getNewPage() {
@@ -49,7 +47,6 @@ public final class PageResponse {
         private ObjectNode actionOutput;
         private MoviesDB moviesDBSubset;
         private ArrayList<String> visitedPages;
-        private ArrayList<ActionsInput> pastActions;
         private ActionsInput rerunAction;
 
         public Builder() {
@@ -112,16 +109,6 @@ public final class PageResponse {
         }
 
         /**
-         * This method sets the pastActions filed for the builder.
-         * @param pastActionsVal The new pastActions value.
-         * @return The builder.
-         */
-        public Builder pastActions(final ArrayList<ActionsInput> pastActionsVal) {
-            this.pastActions = pastActionsVal;
-            return this;
-        }
-
-        /**
          * This method sets the rerunAction filed for the builder.
          * @param rerunActionVal The new rerunAction value.
          * @return The builder.
@@ -156,7 +143,6 @@ public final class PageResponse {
         this.actionOutput = builder.actionOutput;
         this.moviesDBSubset = builder.moviesDBSubset;
         this.visitedPages = builder.visitedPages;
-        this.pastActions = builder.pastActions;
         this.rerunAction = builder.rerunAction;
     }
 

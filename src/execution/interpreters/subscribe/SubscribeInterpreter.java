@@ -7,7 +7,7 @@ import execution.pages.PageResponse;
 
 public final class SubscribeInterpreter implements GeneralInterpreter {
     @Override
-    public PageResponse executeAction(PageQuery pq) {
+    public PageResponse executeAction(final PageQuery pq) {
         if (pq.getCurrentPage() != PageFactory.getPage("see details")) {
             return PageResponse.Builder.createError();
         }

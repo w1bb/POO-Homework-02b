@@ -6,7 +6,11 @@ import execution.notifications.Notification;
 import execution.notifications.NotificationType;
 import execution.users.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public final class MoviesDB {
     private final ArrayList<Movie> movies;
@@ -18,6 +22,7 @@ public final class MoviesDB {
     /**
      * This method adds a given movie to the database.
      * @param movieToAdd The movie to be added to the database.
+     * @return A notification with the newly added information.
      */
     public Notification add(final Movie movieToAdd) {
         for (Movie movie : movies) {
@@ -29,6 +34,11 @@ public final class MoviesDB {
         return new Notification(movieToAdd, NotificationType.DATABASE_ADD);
     }
 
+    /**
+     * This method removes a given movie from the database.
+     * @param movieToRemove The name of the movie to be returned.
+     * @return A notification with the removed information.
+     */
     public Notification delete(final String movieToRemove) {
         Movie movie = searchExact(movieToRemove, null);
         if (movie == null) {
@@ -170,7 +180,12 @@ public final class MoviesDB {
         return filteredDB;
     }
 
-    public Movie getRecommendation(User user) {
+    /**
+     * This method provides a recommendation for a given user.
+     * @param user The user that needs a recommendation.
+     * @return The movie recommendation provided by the algorithm.
+     */
+    public Movie getRecommendation(final User user) {
         TreeMap<String, Integer> genresLikes = new TreeMap<>();
         for (Movie movie : user.getLikedMovies()) {
             for (String genre : movie.getGenres()) {

@@ -8,7 +8,7 @@ public final class Notification {
     private Movie movie;
     private NotificationType notificationType;
 
-    public Notification(Movie movie, NotificationType notificationType) {
+    public Notification(final Movie movie, final NotificationType notificationType) {
         this.movie = movie;
         this.notificationType = notificationType;
     }
@@ -17,7 +17,7 @@ public final class Notification {
         return movie;
     }
 
-    public void setMovie(Movie movie) {
+    public void setMovie(final Movie movie) {
         this.movie = movie;
     }
 
@@ -25,10 +25,14 @@ public final class Notification {
         return notificationType;
     }
 
-    public void setNotificationType(NotificationType notificationType) {
+    public void setNotificationType(final NotificationType notificationType) {
         this.notificationType = notificationType;
     }
 
+    /**
+     * This method converts the notification into an outputable ObjectNode.
+     * @return The outputable ObjectNode.
+     */
     public ObjectNode toObjectNode() {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode returnNode = objectMapper.createObjectNode();
