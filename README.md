@@ -113,3 +113,14 @@ actual meaning, including:
 
 All of these interpreters implement the `GeneralInterpreter` interface, which exposes the
 `executeAction()` interface required everywhere.
+
+### Individuals vs databases
+
+Users and movies are stored in two different ways:
+* As individual entities (the `User` and `Movie` classes) - this is their main representation, but
+  this might not always suffice;
+* As collective entities (the `UsersDB` and `MoviesDB` classes) - these are the database
+  representations of the individual instances.
+
+This way, whenever a mass of users has to be notified / a slice of the movies database is
+requested (e.g. filtered), the interaction is seamless.
