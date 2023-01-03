@@ -1,6 +1,5 @@
-package execution.interpreters.back;
+package execution.interpreters;
 
-import execution.interpreters.GeneralInterpreter;
 import execution.pages.PageFactory;
 import execution.pages.PageQuery;
 import execution.pages.PageResponse;

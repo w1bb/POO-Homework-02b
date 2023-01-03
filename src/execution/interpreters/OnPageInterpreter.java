@@ -1,6 +1,5 @@
-package execution.interpreters.onpage;
+package execution.interpreters;
 
-import execution.interpreters.GeneralInterpreter;
 import execution.pages.PageQuery;
 import execution.pages.PageResponse;
 

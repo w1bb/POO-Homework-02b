@@ -1,6 +1,5 @@
-package execution.interpreters.database;
+package execution.interpreters;
 
-import execution.interpreters.GeneralInterpreter;
 import execution.movies.Movie;
 import execution.notifications.Notification;
 import execution.pages.PageQuery;

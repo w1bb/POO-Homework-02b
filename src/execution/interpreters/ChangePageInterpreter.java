@@ -1,8 +1,7 @@
-package execution.interpreters.changepage;
+package execution.interpreters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import execution.interpreters.GeneralInterpreter;
 import execution.pages.PageFactory;
 import execution.pages.PageQuery;
 import execution.pages.PageResponse;

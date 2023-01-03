@@ -4,11 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import execution.AccountType;
-import execution.interpreters.back.BackInterpreter;
-import execution.interpreters.changepage.ChangePageInterpreter;
-import execution.interpreters.database.DatabaseInterpreter;
-import execution.interpreters.onpage.OnPageInterpreter;
-import execution.interpreters.subscribe.SubscribeInterpreter;
 import execution.movies.Movie;
 import execution.movies.MoviesDB;
 import execution.notifications.Notification;
@@ -36,8 +31,6 @@ public final class Interpreter implements GeneralInterpreter {
 
     private final BackInterpreter backInterpreter;
 
-    private final SubscribeInterpreter subscribeInterpreter;
-
     private final DatabaseInterpreter databaseInterpreter;
 
     public Interpreter(final Input input) {
@@ -50,7 +43,6 @@ public final class Interpreter implements GeneralInterpreter {
         changePageInterpreter = new ChangePageInterpreter();
         onPageInterpreter = new OnPageInterpreter();
         backInterpreter = new BackInterpreter();
-        subscribeInterpreter = new SubscribeInterpreter();
         databaseInterpreter = new DatabaseInterpreter();
     }
 
@@ -142,7 +134,8 @@ public final class Interpreter implements GeneralInterpreter {
             if (originalCurrentPage != currentPage) {
                 ArrayList<String> visitedPages = pq.getVisitedPages();
                 if (visitedPages.size() == 0
-                        || visitedPages.get(visitedPages.size() - 1) != currentPage.getName()) {
+                        || !visitedPages.get(visitedPages.size() - 1)
+                        .equals(currentPage.getName())) {
                     visitedPages.add(currentPage.getName());
                     ArrayList<ActionsInput> pastActions = pq.getPastActions();
                     pastActions.add(actionsInput);
