@@ -3,6 +3,8 @@
 This repository is intended to store a complex user-website interaction simulation.
 It is part of a computer science assignment (POO / 2nd year, 1st semester).
 
+You can check out the first stage of the project [here](https://github.com/w1bb/POO-Homework-02a).
+
 **Full completion date:** 03 Jan. 2023
 
 **Deadline:** 16 Jan. 2023
@@ -25,15 +27,21 @@ appreciated!).
 ## Table of contents
 
 * [Design patterns](#design-patterns)
+* [Coding style convention](#coding-style-convention)
+* [Documentation](#documentation)
 
 ## Design patterns
 
 > In the previous stage of the project, even when the design patterns were outlined separately, to
 > this day, they **did not help the project receive any bonuses** (at that point, four design
 > patterns were implemented). For this reason, this section was moved up a little, in order to help
-> the team correctly identify them.
+> the POO team correctly identify them and mark them.
 
-All the design patterns used throughout the project are explained in this section.
+All the design patterns used throughout the project are explained in this section. All of them
+are actually further explained in the **"Design Patterns: Elements of Reusable Object-Oriented
+Software"** book (written by Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides).
+
+For a better readability, articles for each design pattern were provided.
 
 ### 1. The SINGLETON design pattern
 
@@ -53,10 +61,32 @@ More information about the builder design pattern can be found
 
 ### 3. The STRATEGY design pattern
 
+Whenever the interpreter is asked to follow a request, a structure (called a _page request_) is
+generated and sent over to the appropriate sub-interpreter, and from there, it is sent to the
+correct page. This makes use of the **strategy design pattern**.
+
 More information about the strategy design pattern can be found
 [here](https://en.wikipedia.org/wiki/Strategy_pattern).
 
-## Coding style choices
+### 4. The FACADE design pattern
+
+The `Interpreter` class is a great example of making use of the **facade design pattern** - the
+class hides the complexity of the whole action-processing and provides a simple and easy to use API
+comprised of a constructor and a `runActions()` method.
+
+More information about the facade design pattern can be found
+[here](https://refactoring.guru/design-patterns/facade).
+
+### 5. The FACTORY design pattern
+
+A certain page can be generated _(since singleton is used, it will simply be returned instead)_
+using its name. This comes in handy whenever a `change page` action is queried. This is the
+reasoning behind `PageFactory`, a class that makes use of the **factory design pattern**.
+
+More information about the facade design pattern can be found
+[here](https://www.tutorialspoint.com/design_pattern/factory_pattern.htm).
+
+## Coding style convention
 
 The methods and variables will follow
 [Oracle's](https://www.oracle.com/java/technologies/javase/codeconventions-fileorganization.html)
@@ -68,3 +98,7 @@ file organization convention, so:
 4) Methods: These methods should be grouped by functionality rather than by scope or
    accessibility. For example, a private class method can be in between two public instance
    methods. The goal is to make reading and understanding the code easier.
+
+## Documentation
+
+TODO
